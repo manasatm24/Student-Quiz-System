@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Beautiful Student Quiz System ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        /* Beautiful Cards */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Beautiful Buttons */
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+
+        /* Quiz Styles */
+        .student-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .question-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        #questionDisplay {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-size: 16px;
+            font-weight: normal;
+            box-shadow: none;
+        }
+
+        .option-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border-color: #11998e;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .score-high {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .score-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .score-low {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="page1">
+            <div class="card">
+                <h1>✨ Student Quiz System ✨</h1>
+                <p style="color: #666; margin-bottom: 25px;">Test your knowledge and track your progress!</p>
+                
+                <div class="form-group">
+                    <label>📝 Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label>🎓 USN (University Seat Number)</label>
+                    <input type="text" id="usn" placeholder="e.g., 4JC20CS001">
+                </div>
+                
+                <button onclick="startQuiz()" style="width: 100%; margin-bottom: 10px;">🚀 Start Quiz</button>
+                <button onclick="showDashboard()" class="btn-success" style="width: 100%;">📊 View Admin Dashboard</button>
+            </div>
+        </div>
+
+        <div id="page2" class="hidden">
+            <div class="card">
+                <div class="student-badge" id="studentNameDisplay"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="question-box">
+                    <div id="questionDisplay"></div>
+                </div>
+                <div id="optionsDisplay" class="options-container"></div>
+                <div class="nav-buttons">
+                    <button onclick="prevQuestion()">◀ Previous</button>
+                    <button onclick="nextQuestion()" id="nextBtn">Next ▶</button>
+                </div>
+                <button onclick="goBack()" style="width: 100%; margin-top: 15px; background: #95a5a6;">🏠 Back to Start</button>
+            </div>
+        </div>
+
+        <div id="page3" class="hidden">
+            <div class="card">
+                <h2>📊 Student Results Dashboard</h2>
+                <div id="resultsDisplay"></div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button onclick="goBack()" style="flex: 1;">🏠 Back</button>
+                    <button onclick="clearData()" class="btn-danger" style="flex: 1;">🗑️ Clear All Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple questions
+        const questions = [
+            { text: "What is 2+2?", options: ["3", "4", "5"], correct: 1 },
+            { text: "What is capital of India?", options: ["Mumbai", "Delhi", "Chennai"], correct: 1 },
+            { text: "What color is sky?", options: ["Green", "Blue", "Red"], correct: 1 }
+        ];
+
+        let currentQ = 0;
+        let userAnswers = [];
+        let currentStudent = null;
+        let allResults = [];
+
+        // Load saved data
+        const savedData = localStorage.getItem('quizData');
+        if (savedData) {
+            allResults = JSON.parse(savedData);
+        }
+
+        function saveToLocal() {
+            localStorage.setItem('quizData', JSON.stringify(allResults));
+        }
+
+        function updateProgress() {
+            const progress = ((currentQ + 1) / questions.length) * 100;
+            const fill = document.getElementById('progressFill');
+            if (fill) fill.style.width = progress + '%';
+        }
+
+        function startQuiz() {
+            const name = document.getElementById('name').value;
+            const usn = document.getElementById('usn').value;
+            
+            if (!name || !usn) {
+                alert("⚠️ Please enter both Name and USN!");
+                return;
+            }
+            
+            currentStudent = { name: name, usn: usn };
+            currentQ = 0;
+            userAnswers = [];
+            
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+            document.getElementById('page3').style.display = 'none';
+            
+            document.getElementById('studentNameDisplay').innerHTML = `👤 ${name} &nbsp; | &nbsp; 🎓 ${usn}`;
+            showQuestion();
+            updateProgress();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQ];
+            document.getElementById('questionDisplay').innerHTML = `<strong>Question ${currentQ+1} of ${questions.length}</strong><br><br>${q.text}`;
+            
+            let html = '';
+            q.options.forEach((opt, idx) => {
+                const isSelected = (userAnswers[currentQ] === idx);
+                html += `<div class="option-btn ${isSelected ? 'selected' : ''}" onclick="selectAnswer(${idx})">${String.fromCharCode(65+idx)}. ${opt}</div>`;
+            });
+            document.getElementById('optionsDisplay').innerHTML = html;
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentQ + 1 === questions.length) {
+                nextBtn.innerHTML = '✅ Submit Quiz';
+            } else {
+                nextBtn.innerHTML = 'Next ▶';
+            }
+            
+            updateProgress();
+        }
+
+        function selectAnswer(optIndex) {
+            userAnswers[currentQ] = optIndex;
+            showQuestion();
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQ] === undefined) {
+                alert("⚠️ Please select an answer before proceeding!");
+                return;
+            }
+            
+            if (currentQ + 1 < questions.length) {
+                currentQ++;
+                showQuestion();
+            } else {
+                submitQuiz();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQ > 0) {
+                currentQ--;
+                showQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            questions.forEach((q, i) => {
+                if (userAnswers[i] === q.correct) score++;
+            });
+            
+            const percentage = (score/questions.length)*100;
+            let grade = '';
+            if (percentage >= 70) grade = '🌟 Excellent!';
+            else if (percentage >= 40) grade = '👍 Good Job!';
+            else grade = '📚 Keep Practicing!';
+            
+            const result = {
+                name: currentStudent.name,
+                usn: currentStudent.usn,
+                score: score,
+                total: questions.length,
+                percentage: percentage,
+                date: new Date().toLocaleString()
+            };
+            
+            allResults.push(result);
+            saveToLocal();
+            
+            alert(`🎉 Quiz Complete! 🎉\n\n📊 Your Score: ${score}/${questions.length}\n📈 Percentage: ${percentage}%\n💫 ${grade}`);
+            goBack();
+        }
+
+        function showDashboard() {
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page3').style.display = 'block';
+            
+            // Calculate stats
+            const totalStudents = allResults.length;
+            const avgPercentage = totalStudents > 0 ? (allResults.reduce((sum, r) => sum + r.percentage, 0) / totalStudents).toFixed(1) : 0;
+            const highestScore = totalStudents > 0 ? Math.max(...allResults.map(r => r.percentage)) : 0;
+            const passCount = allResults.filter(r => r.percentage >= 40).length;
+            
+            let html = `
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">${totalStudents}</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${avgPercentage}%</div>
+                        <div class="stat-label">Average Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${highestScore}%</div>
+                        <div class="stat-label">Highest Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${passCount}</div>
+                        <div class="stat-label">Passed</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>USN</th>
+                                <th>Score</th>
+                                <th>%</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            if (allResults.length === 0) {
+                html += '<tr><td colspan="7" style="text-align: center;">📭 No results yet. Take a quiz first!</td></tr>';
+            } else {
+                allResults.slice().reverse().forEach((r, idx) => {
+                    const scoreClass = r.percentage >= 70 ? 'score-high' : (r.percentage >= 40 ? 'score-medium' : 'score-low');
+                    const status = r.percentage >= 40 ? '✅ Pass' : '❌ Fail';
+                    html += `
+                        <tr>
+                            <td>${idx + 1}</td>
+                            <td><strong>${r.name}</strong></td>
+                            <td>${r.usn}</td>
+                            <td>${r.score}/${r.total}</td>
+                            <td>${r.percentage}%</td>
+                            <td><span class="score-badge ${scoreClass}">${status}</span></td>
+                            <td style="font-size: 12px;">${r.date}</td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            document.getElementById('resultsDisplay').innerHTML = html;
+        }
+
+        function goBack() {
+            document.getElementById('page1').style.display = 'block';
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page3').style.display = 'none';
+            document.getElementById('name').value = '';
+            document.getElementById('usn').value = '';
+        }
+
+        function clearData() {
+            if (confirm('⚠️ WARNING: This will delete ALL student data! Are you sure?')) {
+                allResults = [];
+                saveToLocal();
+                showDashboard();
+                alert('✅ All data has been cleared!');
+            }
+        }
+    </script>
+</body>
+</html>
