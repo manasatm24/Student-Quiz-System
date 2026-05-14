@@ -134,8 +134,3 @@ The application includes 5 sample questions covering:
 ## License
 
 This project is open source and available under the MIT License.
-
-## Support
-
-For questions or issues, please create an issue in the repository or contact the development team.</content>
-<parameter name="filePath">c:\Users\RaghuKote\Downloads\raghu\new project\README.md
