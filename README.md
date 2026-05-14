@@ -16,14 +16,15 @@ A comprehensive web-based quiz application designed for educational institutions
 
 ```
 new project/
-├── index.html          # Main quiz interface (client-side only)
-├── index2.html         # Enhanced quiz interface (client-side only)
 ├── backend/
 │   ├── server.js       # Express.js server
 │   ├── models/
 │   │   └── Quiz.js     # Quiz model (MongoDB)
 │   └── package.json    # Backend dependencies
-├── frontend/           # (Currently empty - static files can be served here)
+├── frontend/
+│   ├── index.html      # Main quiz interface
+│   └── index2.html     # Enhanced quiz interface
+├── New Text Document.txt
 └── README.md          # This file
 ```
 
