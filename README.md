@@ -75,8 +75,7 @@ new project/
    ```bash
    npm run dev
    ```
-
-   The server will run on `http://localhost:5000`
+ The server will run on `http://localhost:5000`
 
 ### Frontend Setup
 
