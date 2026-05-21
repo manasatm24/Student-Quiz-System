@@ -25,7 +25,7 @@ new project/
 │   ├── index.html      # Main quiz interface
 │   └── index2.html     # Enhanced quiz interface
 ├── New Text Document.txt
-└── README.md          # This file
+└── README.md          
 ```
 
 ## Technologies Used
